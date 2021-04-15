@@ -3,6 +3,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 
+const { UserSchema, UserModel } = require("./models/user.model")
+
 require("dotenv").config();
 
 const Routes = require("./routes");
@@ -13,6 +15,7 @@ mongoose.connect(MONGO_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
 
 const app = express();
 
@@ -29,3 +32,5 @@ app.get("/", (request, response) => {
 app.listen(HTTP_PORT, () => {
     console.log(`Rodando na porta ${HTTP_PORT}`)
 });
+
+

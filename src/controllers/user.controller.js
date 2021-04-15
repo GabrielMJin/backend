@@ -1,4 +1,4 @@
-const UserModel = require("../models/user.model");
+const {UserModel} = require("../models/user.model.js");
 
 class User {
     async index(req, res) {
@@ -20,9 +20,9 @@ class User {
 
     async store(req, res){
         const body = req.body;
-
+        console.log(UserModel)
         const user= await UserModel.create(body);
-
+        
         res.send({ data: user });
     }
 
