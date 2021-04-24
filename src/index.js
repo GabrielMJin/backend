@@ -18,8 +18,11 @@ mongoose.connect(MONGO_URL, {
 
 
 const app = express();
+app.use(require('cors')());
+// app.use(cors());
 
-app.use(cors());
+// app.use(require('cors')());
+
 app.use(express.json({ limit: "3mb" }));
 app.use(morgan("dev"));
 

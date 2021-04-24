@@ -3,7 +3,6 @@ const {UserSchema} = require("./user.model");
 
 const AgendamentoSchema = new mongoose.Schema(
     {
-        name: String,
         data: Date,
         agendamento8: [UserSchema,UserSchema],
         agendamento9: [UserSchema,UserSchema],
@@ -15,7 +14,8 @@ const AgendamentoSchema = new mongoose.Schema(
         agendamento16: [UserSchema,UserSchema],
         agendamento17: [UserSchema,UserSchema],
         agendamento18: [UserSchema,UserSchema],
-        estado: String
+        estado: String,
+        comentario: String
     },
     {
         timestamps: true,

@@ -1,4 +1,6 @@
 const {UserModel} = require("../models/user.model.js");
+const {AgendamentoModel} = require("../models/agendamento.model");
+const AgendamentoController = require("../controllers/agendamento.controller");
 
 class User {
     async index(req, res) {
@@ -8,10 +10,10 @@ class User {
     }
 
     async getOne(req, res){
-        const { id } = req.params;
+        const { cpf } = req.params;
 
         try{
-            const user = await UserModel.findById(id);
+            const user = await UserModel.find({cpf});
             res.send({ data: user });
         } catch(error) {
             res.status(400).json({ message: error.message });
@@ -20,17 +22,24 @@ class User {
 
     async store(req, res){
         const body = req.body;
-        console.log(UserModel)
+        const idAgendamento = req.body.idAgendamento; const agendamento = req.body.agendamento;
+        delete body.idAgendamento;
+        delete body.deleteagendamento;
         const user= await UserModel.create(body);
-        
-        res.send({ data: user });
+
+        try{
+            var response = await AgendamentoController.agendar(idAgendamento, agendamento, user );
+            res.send({ data: user });
+        }catch(error){
+            res.status(400).json({ message: error.message });
+        }
     }
 
     async remove(req, res) {
-        const { id } = req.params;
+        const { cpf } = req.params;
 
         try{
-            const user = await UserModel.findById(id);
+            const user = await UserModel.findOneAndRemove({cpf});
 
             if(!user) {
                 return res.send({ message: "User not exist" })
@@ -44,12 +53,13 @@ class User {
     }
 
     async update(req, res) {
+        console.log("passou")
         const {
             body,
-            params: { id },
+            params: { cpf },
         } = req;
 
-        const user = await UserModel.findByIdAndUpdate(id, body, { new: true });
+        const user = await UserModel.findOneAndUpdate(cpf, body, { new: true });
         
         res.send({ data: user });
     }
